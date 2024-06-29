@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@elastic/elasticsearch": "^8.13.1",
+    "cloudinary": "^2.2.0"
+  }
+}
