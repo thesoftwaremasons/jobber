@@ -41,7 +41,7 @@ function securityMiddleware(app: Application): void {
   );
 
   app.use((req: Request, _res: Response, next: NextFunction) => {
-    if (!req.headers.authorization) {
+    if (req.headers.authorization) {
       const token: string = req.headers.authorization?.split(' ')[1] as string;
       const payload: IAuthPayload = verify(token, config.JWT_TOKEN!) as IAuthPayload;
       req.currentUser = payload;

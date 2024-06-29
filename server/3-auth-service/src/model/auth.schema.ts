@@ -52,14 +52,17 @@ const AuthModel: ModelDefined<IAuthDocument, AuthUserCreationAttributes> & AuthM
     },
     browserName: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true,
+      defaultValue: ''
     },
     deviceType: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true,
+      defaultValue: ''
     },
     otp: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      defaultValue: ''
     },
     otpExpiration: {
       type: DataTypes.DATE,
@@ -109,5 +112,9 @@ AuthModel.prototype.hashPassword = async function (password: string): Promise<st
 };
 
 // force: true always deletes the table when there is a server restart
-AuthModel.sync({});
+
+if (process.env.NODE_ENV != 'test') {
+  AuthModel.sync({});
+}
+
 export { AuthModel };

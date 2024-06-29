@@ -45,7 +45,7 @@ export async function getAuthUserByUserNameOrEmail(username: string, email: stri
       exclude: ['password']
     }
   })) as Model;
-  return user.dataValues;
+  return user?.dataValues;
 }
 
 export async function getAuthUserByUserName(username: string): Promise<IAuthDocument> {
@@ -55,7 +55,7 @@ export async function getAuthUserByUserName(username: string): Promise<IAuthDocu
       exclude: ['password']
     }
   })) as Model;
-  return user.dataValues;
+  return user?.dataValues;
 }
 export async function getAuthUserByEmail(email: string): Promise<IAuthDocument> {
   const user: Model = (await AuthModel.findOne({
@@ -64,7 +64,7 @@ export async function getAuthUserByEmail(email: string): Promise<IAuthDocument> 
       exclude: ['password']
     }
   })) as Model;
-  return user.dataValues;
+  return user?.dataValues;
 }
 export async function getAuthUserByVerificationToken(token: string): Promise<IAuthDocument> {
   const user: Model = (await AuthModel.findOne({
@@ -73,7 +73,7 @@ export async function getAuthUserByVerificationToken(token: string): Promise<IAu
       exclude: ['password']
     }
   })) as Model;
-  return user.dataValues;
+  return user?.dataValues;
 }
 
 export async function getAuthUserByPasswordToken(token: string): Promise<IAuthDocument> {
@@ -83,7 +83,7 @@ export async function getAuthUserByPasswordToken(token: string): Promise<IAuthDo
       exclude: ['password']
     }
   })) as Model;
-  return user.dataValues;
+  return user?.dataValues;
 }
 
 export async function updateVerifyEmailField(authId: number, emailVerified: number, emailVerificationToken: string): Promise<void> {

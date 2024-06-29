@@ -5,6 +5,7 @@ import { config } from '@auth/config';
 
 const intialize = (): void => {
   config.cloudinaryConfig();
+
   const app: Express = express();
   databaseConnection();
   start(app);

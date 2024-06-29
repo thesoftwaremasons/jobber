@@ -44,11 +44,11 @@ class Config {
     this.ELASTIC_SEARCH_URL = process.env.ELASTIC_SEARCH_URL || '';
   }
 
-  public cloudinaryConfig(): void {
-    cloudinary.v2.config({
-      cloud_name: this.CLOUD_NAME,
-      api_key: this.CLOUD_API_KEY,
-      api_secret: this.CLOUD_API_SECRET
+  public cloudinaryConfig(): unknown | null {
+    return cloudinary.v2.config({
+      cloud_name: 'sofwaremasonscdn', //this.CLOUD_NAME,
+      api_key: '926237674189292', //this.CLOUD_API_KEY,
+      api_secret: 'da7f9fKHbLXcmGLicvQb6OALrEc' //this.CLOUD_API_SECRET
     });
   }
 }
