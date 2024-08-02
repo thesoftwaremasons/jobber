@@ -1,11 +1,14 @@
 import { AuthModel } from '@auth/model/auth.schema';
 import { publishDirectMessage } from '@auth/queues/auth.producer';
 import { authChannel } from '@auth/server';
-import { firstLetterUppercase, IAuthBuyerMessageDetails, IAuthDocument } from '@thesoftwaremasons/jobber-shared';
+import { firstLetterUppercase, IAuthBuyerMessageDetails, IAuthDocument, winstonLogger } from '@thesoftwaremasons/jobber-shared';
 import { config } from '@auth/config';
 import { sign } from 'jsonwebtoken';
 import { lowerCase, omit } from 'lodash';
 import { Model, Op } from 'sequelize';
+import { Logger } from 'winston';
+
+const log: Logger = winstonLogger(`${config.ELASTIC_SEARCH_URL}`, 'authService', 'debug');
 
 export async function createAuthUser(data: IAuthDocument): Promise<IAuthDocument> {
   const result: Model = await AuthModel.create(data);
@@ -19,7 +22,7 @@ export async function createAuthUser(data: IAuthDocument): Promise<IAuthDocument
   };
   await publishDirectMessage(
     authChannel,
-    'jobber-buyer--update',
+    'jobber-buyer-update',
     'user-buyer',
     JSON.stringify(messageDetails),
     'Buyer details sent to buyer service.'
@@ -48,23 +51,26 @@ export async function getAuthUserByUserNameOrEmail(username: string, email: stri
   return user?.dataValues;
 }
 
-export async function getAuthUserByUserName(username: string): Promise<IAuthDocument> {
-  const user: Model = (await AuthModel.findOne({
-    where: { username: username },
-    attributes: {
-      exclude: ['password']
-    }
-  })) as Model;
-  return user?.dataValues;
+export async function getUserByUsername(username: string): Promise<IAuthDocument | undefined> {
+  try {
+    const user: Model = (await AuthModel.findOne({
+      where: { username: firstLetterUppercase(username) }
+    })) as Model;
+    return user?.dataValues;
+  } catch (error) {
+    log.error(error);
+  }
 }
-export async function getAuthUserByEmail(email: string): Promise<IAuthDocument> {
-  const user: Model = (await AuthModel.findOne({
-    where: { email: email },
-    attributes: {
-      exclude: ['password']
-    }
-  })) as Model;
-  return user?.dataValues;
+
+export async function getUserByEmail(email: string): Promise<IAuthDocument | undefined> {
+  try {
+    const user: Model = (await AuthModel.findOne({
+      where: { email: lowerCase(email) }
+    })) as Model;
+    return user?.dataValues;
+  } catch (error) {
+    log.error(error);
+  }
 }
 export async function getAuthUserByVerificationToken(token: string): Promise<IAuthDocument> {
   const user: Model = (await AuthModel.findOne({

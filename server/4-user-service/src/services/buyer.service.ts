@@ -11,7 +11,7 @@ const getBuyerByUserName = async (username: string): Promise<IBuyerDocument | nu
   return buyer;
 };
 
-const getRandomBuyer = async (count: number): Promise<IBuyerDocument[] | null> => {
+const getRandomBuyers = async (count: number): Promise<IBuyerDocument[]> => {
   const buyers: IBuyerDocument[] | null = await BuyerModel.aggregate([{ $sample: { size: count } }]);
 
   return buyers;
@@ -20,7 +20,7 @@ const getRandomBuyer = async (count: number): Promise<IBuyerDocument[] | null> =
 const createBuyer = async (buyerData: IBuyerDocument): Promise<void> => {
   const checkIfBuyerExist: IBuyerDocument | null = await getBuyerByEmail(`${buyerData.email}`);
   if (!checkIfBuyerExist) {
-    await BuyerModel.create(checkIfBuyerExist);
+    await BuyerModel.create(buyerData);
   }
 };
 const updateBuyerIsSellerProp = async (email: string): Promise<void> => {
@@ -51,4 +51,4 @@ const updateBuyerPurchasedGigsProp = async (buyerId: string, purchasedGigsId: st
   ).exec();
 };
 
-export { getBuyerByEmail, getBuyerByUserName, getRandomBuyer, createBuyer, updateBuyerIsSellerProp, updateBuyerPurchasedGigsProp };
+export { getBuyerByEmail, getBuyerByUserName, getRandomBuyers, createBuyer, updateBuyerIsSellerProp, updateBuyerPurchasedGigsProp };

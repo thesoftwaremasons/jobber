@@ -29,6 +29,7 @@ const consumeBuyerDirectMessages = async (channel: Channel): Promise<void> => {
     await channel.bindQueue(jobberQueue.queue, exchangeName, routingKey);
     channel.consume(jobberQueue.queue, async (msg: ConsumeMessage | null) => {
       const { type } = JSON.parse(msg!.content.toString());
+      log.info('buyers information are been consumed at consumeBuyerDirectMessages()');
       if (type === 'auth') {
         const { username, email, profilePicture, country, createdAt } = JSON.parse(msg!.content.toString());
         const buyer: IBuyerDocument = {

@@ -1,13 +1,15 @@
 import { ISellerDocument } from '@thesoftwaremasons/jobber-shared';
-import { Model, model, Schema } from 'mongoose';
+import { Model, Schema, model } from 'mongoose';
 
 const sellerSchema: Schema = new Schema(
   {
     fullName: { type: String, required: true },
     username: { type: String, required: true, index: true },
     email: { type: String, required: true, index: true },
+    profilePicture: { type: String, required: true },
     description: { type: String, required: true },
     profilePublicId: { type: String, required: true },
+    oneliner: { type: String, default: '' },
     country: { type: String, required: true },
     languages: [
       {
@@ -16,8 +18,8 @@ const sellerSchema: Schema = new Schema(
       }
     ],
     skills: [{ type: String, required: true }],
-    ratingCount: { type: Number, required: true },
-    ratingSum: { type: Number, required: true },
+    ratingsCount: { type: Number, default: 0 },
+    ratingSum: { type: Number, default: 0 },
     ratingCategories: {
       five: { value: { type: Number, default: 0 }, count: { type: Number, default: 0 } },
       four: { value: { type: Number, default: 0 }, count: { type: Number, default: 0 } },
@@ -34,7 +36,7 @@ const sellerSchema: Schema = new Schema(
         startDate: { type: String, default: '' },
         endDate: { type: String, default: '' },
         description: { type: String, default: '' },
-        currentWorkingHere: { type: Boolean, default: false }
+        currentlyWorkingHere: { type: Boolean, default: false }
       }
     ],
     education: [
@@ -46,17 +48,12 @@ const sellerSchema: Schema = new Schema(
         year: { type: String, default: '' }
       }
     ],
-    socialLinks: [
-      {
-        type: String,
-        default: ''
-      }
-    ],
+    socialLinks: [{ type: String, default: '' }],
     certificates: [
       {
         name: { type: String },
         from: { type: String },
-        year: { type: String }
+        year: { type: Number }
       }
     ],
     ongoingJobs: { type: Number, default: 0 },
@@ -64,7 +61,7 @@ const sellerSchema: Schema = new Schema(
     cancelledJobs: { type: Number, default: 0 },
     totalEarnings: { type: Number, default: 0 },
     totalGigs: { type: Number, default: 0 },
-    createdAt: { type: Date, default: Date.now() }
+    createdAt: { type: Date, default: Date.now }
   },
   {
     versionKey: false

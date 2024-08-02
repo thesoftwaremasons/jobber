@@ -2,9 +2,9 @@ import crypto from 'crypto';
 
 import { changePasswordSchema, emailSchema } from '@auth/schemes/password';
 import {
-  getAuthUserByEmail,
   getAuthUserByPasswordToken,
-  getAuthUserByUserName,
+  getUserByEmail,
+  getUserByUsername,
   updatePassword,
   updatePasswordToken
 } from '@auth/service/auth.service';
@@ -22,7 +22,7 @@ export async function forgotPassword(req: Request, res: Response): Promise<void>
     throw new BadRequestError(error.details[0].message, 'Password create() method error');
   }
   const { email } = req.body;
-  const existingUser: IAuthDocument = await getAuthUserByEmail(email);
+  const existingUser: IAuthDocument | undefined = await getUserByEmail(email);
   if (!existingUser) {
     throw new BadRequestError('Invalid Credentials', 'Password create() method error');
   }
@@ -90,7 +90,7 @@ export async function changePassword(req: Request, res: Response): Promise<void>
   if (currentPassword !== newPassword) {
     throw new BadRequestError('Passwords do not match', 'Password changePassword() method error');
   }
-  const existingUser: IAuthDocument = await getAuthUserByUserName(`${req.currentUser?.username}!`);
+  const existingUser: IAuthDocument | undefined = await getUserByUsername(`${req.currentUser?.username}!`);
   if (!existingUser) {
     throw new BadRequestError('Invalid Password', 'Password changePassword() method error');
   }

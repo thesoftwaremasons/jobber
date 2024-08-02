@@ -21,3 +21,15 @@ GET {{baseUrl}}/{{urlPath}}/search/gig/0/5/forward?query=beauty
 Content-Type: application/json
 Accept: application/json
 withCredentials:true
+
+
+######
+POST {{baseUrl}}/{{urlPath}}/signin
+Content-Type: application/json
+Accept: application/json
+
+withCredentials:true
+{
+    "username":"sunnyna",  
+    "password":"querty"
+}

@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 
-import { getAuthUserByEmail, getAuthUserById, updateVerifyEmailField } from '@auth/service/auth.service';
+import { getAuthUserById, getUserByEmail, updateVerifyEmailField } from '@auth/service/auth.service';
 import { BadRequestError, IAuthDocument, IEmailMessageDetails } from '@thesoftwaremasons/jobber-shared';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
@@ -19,7 +19,7 @@ export async function read(req: Request, res: Response) {
 }
 export async function resendEmail(req: Request, res: Response): Promise<void> {
   const { email, userId } = req.body;
-  const checkIfUserExist: IAuthDocument = await getAuthUserByEmail(lowerCase(email));
+  const checkIfUserExist: IAuthDocument | undefined = await getUserByEmail(lowerCase(email));
   if (!checkIfUserExist) {
     throw new BadRequestError('Email is invalid', 'Current  resendEmail() method error');
   }
