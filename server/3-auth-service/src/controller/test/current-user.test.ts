@@ -38,7 +38,7 @@ describe('CurrentUser', () => {
     it('should call BadRequestError for Invalid Email', async () => {
       const req: Request = authMockRequest({}, { username: USERNAME, password: PASSWORD }, authUserPayload) as unknown as Request;
       const res: Response = authMockResponse();
-      jest.spyOn(auth, 'getAuthUserByEmail').mockResolvedValue({} as never);
+      jest.spyOn(auth, 'getUserByEmail').mockResolvedValue({} as never);
       await resendEmail(req, res).catch(() => {
         expect(helper.BadRequestError).toHaveBeenCalledWith('Email is invalid', 'Current  resendEmail() method error');
       });
@@ -46,7 +46,7 @@ describe('CurrentUser', () => {
     it('should call updateVerifyEmailField method', async () => {
       const req: Request = authMockRequest({}, { username: USERNAME, password: PASSWORD }, authUserPayload) as unknown as Request;
       const res: Response = authMockResponse();
-      jest.spyOn(auth, 'getAuthUserByEmail').mockResolvedValue(authMock);
+      jest.spyOn(auth, 'getUserByEmail').mockResolvedValue(authMock);
       await resendEmail(req, res);
 
       expect(auth.updateVerifyEmailField).toHaveBeenCalled();
@@ -55,7 +55,7 @@ describe('CurrentUser', () => {
     it('should return authenticated user', async () => {
       const req: Request = authMockRequest({}, { username: USERNAME, password: PASSWORD }, authUserPayload) as unknown as Request;
       const res: Response = authMockResponse();
-      jest.spyOn(auth, 'getAuthUserByEmail').mockResolvedValue(authMock);
+      jest.spyOn(auth, 'getUserByEmail').mockResolvedValue(authMock);
       jest.spyOn(auth, 'getAuthUserById').mockResolvedValue(authMock);
       await resendEmail(req, res);
       expect(auth.updateVerifyEmailField).toHaveBeenCalled();
