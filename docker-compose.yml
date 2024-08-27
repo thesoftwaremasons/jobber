@@ -328,35 +328,34 @@ services:
     depends_on:
       - elasticsearch
       - mongodb
-  # order:
-  #   container_name: order_container
-  #   build:
-  #     context: ../server/7-order-service
-  #     dockerfile: Dockerfile.dev
-  #   restart: always
-  #   ports:
-  #     - 4006:4006
-  #   env_file: ../server/7-order-service/.env
-  #   environment:
-  #     - ENABLE_APM=1
-  #     - DATABASE_URL=mongodb://mongodb_container:27017/jobber-chat
-  #     - GATEWAY_JWT_TOKEN=1282722b942e08c8a6cb033aa6ce850e
-  #     - JWT_TOKEN=8db8f85991bb28f45ac0107f2a1b349c
-  #     - NODE_ENV=development
-  #     - AP_GATEWAY_URL=http://gateway_container:4000
-  #     - CLIENT_URL=http://localhost:3000
-  #     - RABBITMQ_ENDPOINT=amqp://jobber:jobberpass@rabbitmq_container:5672
-  #     - STRIPE_API_KEY=sk_test_51OAXs6DTglvMeJPrlX1Lp9Mw7aXwlBbFJOLQdlkFv5mRKPkQdFrxvYN68xZ54wBr6VbP44khSM5UpPtfaixlMgcW00CIZEpmn5
-  #     - CLOUD_NAME=dyamr9ym3
-  #     - CLOUD_API_KEY=385269193982147
-  #     - CLOUD_API_SECRET=-h9hU43QMy68AcIaMyP0ULKbibI
-  #     - ELASTIC_SEARCH_URL=http://elastic:admin1234@elasticsearch_container:9200
-  #     - ELASTIC_APM_SERVER_URL=http://apm_server_container:8200
-  #     - ELASTIC_APM_SECRET_TOKEN=
-  #   depends_on:
-  #     - elasticsearch
-  #     - mongodb
-
+  order:
+    container_name: order_container
+    build:
+      context: ../jobber/server/7-order-service
+      dockerfile: Dockerfile.dev
+    restart: always
+    ports:
+      - 4006:4006
+    env_file: ../jobber/server/7-order-service/.env
+    environment:
+      - ENABLE_APM=1
+      - DATABASE_URL=mongodb://mongodb_container:27017/jobber-chat
+      - GATEWAY_JWT_TOKEN=1282722b942e08c8a6cb033aa6ce850e
+      - JWT_TOKEN=8db8f85991bb28f45ac0107f2a1b349c
+      - NODE_ENV=development
+      - AP_GATEWAY_URL=http://gateway_container:4000
+      - CLIENT_URL=http://localhost:3000
+      - RABBITMQ_ENDPOINT=amqp://jobber:jobberpass@rabbitmq_container:5672
+      - STRIPE_API_KEY=sk_test_51OAXs6DTglvMeJPrlX1Lp9Mw7aXwlBbFJOLQdlkFv5mRKPkQdFrxvYN68xZ54wBr6VbP44khSM5UpPtfaixlMgcW00CIZEpmn5
+      - CLOUD_NAME=dyamr9ym3
+      - CLOUD_API_KEY=385269193982147
+      - CLOUD_API_SECRET=-h9hU43QMy68AcIaMyP0ULKbibI
+      - ELASTIC_SEARCH_URL=http://elastic:admin1234@elasticsearch_container:9200
+      - ELASTIC_APM_SERVER_URL=http://apm_server_container:8200
+      - ELASTIC_APM_SECRET_TOKEN=
+    depends_on:
+      - elasticsearch
+      - mongodb
   # review:
   #   container_name: order_container
   #   build:
